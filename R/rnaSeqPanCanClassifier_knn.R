@@ -268,7 +268,6 @@
   }
   options(warn=1)
   tab <- data.frame(Sample=colnames(r),predicted)
-  #return(list(predicted=predicted,tab=tab))
   return(tab)
 }
 
@@ -420,7 +419,6 @@ cv <- function(annot=NULL,params=NULL,refset,max_k=20){
   k.best <- min(cv.res.k.acc[cv.res.k.acc$Accuracy==max(cv.res.k.acc$Accuracy),]$k)
   g.k_vs_accuracy <- ggplot(cv.res.k.acc,aes(x=k,y=Accuracy)) + geom_point(stat="identity") +
     theme_classic() + geom_vline(xintercept = k.best,linetype = "longdash",colour="gray")
-  #ggsave("~/proj/pdac/Investigations/rna/classification_subtypes.choose_k.pdf",width=3,height = 3)
 
   cv.res.k.best.acc <- cv.res.k[[k.best]]$cv.df.melt[cv.res.k[[k.best]]$cv.df.melt$Var2 %in%
                                                        c("Accuracy","AccuracyPValue"),]
@@ -428,7 +426,6 @@ cv <- function(annot=NULL,params=NULL,refset,max_k=20){
   g.accuracy_best_k <- ggplot(cv.res.k.best.acc,aes(x=category,y=value)) + geom_bar(stat="identity") +
     theme_classic() + facet_wrap(~ measure) +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-  #ggsave("~/proj/pdac/Investigations/rna/classification_subtypes.choose_k.accuracy.pdf",width=3,height = 6)
 
   return(list(k.best = k.best,
               cv.res.k.acc = cv.res.k.acc,
@@ -546,7 +543,6 @@ classify <- function(input_test, input_train = "tcga", outdir = NULL, k = 6,
   if (!is.null(outdir)){
     dir.create(outdir,showWarnings = F,recursive = T)
     .write_correlation_table(r = r, inhouse = inhouse, refset = refset, outdir = outdir)
-    #write.table(knn.res$tab,file=paste0(outdir,'kNN_prediction.txt'),quote=F,row.names=F,col.names = F)
     write.table(knn.res,file=paste0(outdir,'kNN_prediction.txt'),quote=F,row.names=F,col.names = F)
     saveRDS(knn.res,file=paste0(outdir,'kNN_res.rda'))
     saveRDS(r,file=paste0(outdir,'corr_mat.rda'))
