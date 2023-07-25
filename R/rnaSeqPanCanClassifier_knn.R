@@ -72,7 +72,7 @@
     stop("Unsupported genome")
   }
 
-  if (substr(head(genes)[1],1,4) != "ENSG"){
+  if (substr(head(genes)[1],1,4) != "ENSG" && !symbols){
     stop("If symbols = F, provided gene names need to be human Ensembl identifiers (ENSG...)")
   }
   map <- map[which(map$ensembl_gene_id %in% genes),]
