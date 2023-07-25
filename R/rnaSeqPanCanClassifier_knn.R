@@ -74,20 +74,21 @@
 
   if (substr(head(genes)[1],1,4) != "ENSG" && !symbols){
     stop("If symbols = F, provided gene names need to be human Ensembl identifiers (ENSG...)")
+  } else if (!symbols) {
+    map <- map[which(map$ensembl_gene_id %in% genes),]
+    map$external_gene_name <- NULL
+    colnames(map)[colnames(map)=="ensembl_gene_id"] <- "gene_id"
+    map <- unique(map)
+    map <- .deduplicate_map(map)
+  } else {
+    colnames(map)[colnames(map)=="external_gene_name"] <- "gene_id"
   }
-  map <- map[which(map$ensembl_gene_id %in% genes),]
-  map$external_gene_name <- NULL
-  colnames(map)[colnames(map)=="ensembl_gene_id"] <- "gene_id"
-  map <- unique(map)
-
-  map <- .deduplicate_map(map)
-
   genes_isect <- intersect(map$gene_id , genes)
 
   lengths <- sapply(genes_isect, function(x) {
     max(map$transcript_length[map$gene_id == x])
   })
-  #stopifnot(identical(names(lengths), genes_ens))
+
   stopifnot(identical(names(lengths), genes_isect))
   g_info <- as.data.frame(lengths)
   colnames(g_info) <- "length"
