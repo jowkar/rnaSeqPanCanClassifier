@@ -1,7 +1,7 @@
 Package: rnaSeqPanCanClassifier
 Type: Package
 Title: RNA-based classification of tumors
-Version: 0.1.8
+Version: 0.1.9
 Author: Joakim Karlsson
 Maintainer: Joakim Karlsson <joakim.karlsson@perkings.org.au>
 Description: RNA-seq-based cancer type prediction using a kNN approach and with TCGA data as default reference.
